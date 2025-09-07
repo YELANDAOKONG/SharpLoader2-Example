@@ -38,7 +38,9 @@ public class ModuleMain : IModule
     {
         if (Manager == null) return null;
         var classMappedName = Manager.Mapping.Classes.TryGetValue(className, out var mappedClass);
+        var innerClassMappedName = Manager.Mapping.InnerClasses.TryGetValue(className, out var mappedInnerClass);
         if (classMappedName) Logger?.Trace($"(Mappings) {className} => {mappedClass?.MappedName}");
+        if (innerClassMappedName) Logger?.Trace($"(Mappings) {className} => {mappedInnerClass?.MappedName}");
         return null;
     }
 }

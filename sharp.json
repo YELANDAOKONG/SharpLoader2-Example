@@ -1,0 +1,7 @@
+{
+  "Id": "SharpLoaderExample",
+  "Namespace": "SharpLoaderExample",
+  "EntryPoint": "SharpLoaderExample.dll",
+  "MainClass": "SharpLoaderExample.ModuleMain",
+  "Title": "SharpLoader Example"
+}

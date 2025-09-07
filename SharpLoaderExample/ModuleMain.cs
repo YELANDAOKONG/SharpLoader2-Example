@@ -5,36 +5,22 @@ using SharpLoader.Utilities;
 
 namespace SharpLoaderExample;
 
-public class ModuleMain : IModule
+public class ModuleMain : ModuleBase
 {
-    public IntPtr JvmHandle { get; set; }
-    public IntPtr EnvHandle { get; set; }
-    
     public static ModuleMain? Instance { get; private set; }
-    public static ModuleManager? Manager { get; private set; }
-    public static LoggerService? Logger { get; private set; }
 
     public ModuleMain()
     {
         Instance = this;
     }
 
-    public bool Setup(IntPtr jvm, IntPtr env)
+    protected override void OnInitialize(ModuleManager manager, LoggerService? logger)
     {
-        JvmHandle = jvm;
-        EnvHandle = env;
-        return true;
+        Logger?.Info("Module loaded.");
     }
+    
 
-    public void Initialize(ModuleManager manager, LoggerService? logger)
-    {
-        Manager = manager;
-        Logger = logger;
-
-        Logger?.Info("Module Initialized.");
-    }
-
-    public byte[]? ModifyClass(string className, byte[] classData)
+    public override byte[]? ModifyClass(string className, byte[] classData)
     {
         if (Manager == null) return null;
         var classMappedName = Manager.Mapping.Classes.TryGetValue(className, out var mappedClass);

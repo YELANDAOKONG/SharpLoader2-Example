@@ -1,7 +1,22 @@
 {
   "Id": "SharpLoaderExample",
   "Namespace": "SharpLoaderExample",
+
+  "Version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 0
+  },
+
   "EntryPoint": "SharpLoaderExample.dll",
   "MainClass": "SharpLoaderExample.ModuleMain",
-  "Title": "SharpLoader Example"
+  "NativeDependencies": [
+    "SharpASM.dll"
+  ],
+
+  "Title": "SharpLoader Example",
+  "Description": "Sharp Loader Example Module",
+  "Authors": [
+    "You"
+  ]
 }

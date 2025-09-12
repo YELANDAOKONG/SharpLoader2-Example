@@ -10,6 +10,10 @@
       <Reference Include="SharpLoader">
         <HintPath>..\..\SharpLoader\SharpLoader\bin\Release\net8.0\SharpLoader.dll</HintPath>
       </Reference>
+
+        <Reference Include="SharpASM">
+            <HintPath>..\..\SharpASM\SharpASM\bin\Release\net8.0\SharpASM.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

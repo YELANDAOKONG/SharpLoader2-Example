@@ -32,9 +32,10 @@ public class ModuleMain : ModuleBase
         if (Manager == null) return null;
         var classMappedName = Manager.Mapping.Classes.TryGetValue(className, out var mappedClass);
         var innerClassMappedName = Manager.Mapping.InnerClasses.TryGetValue(className, out var mappedInnerClass);
-        if (classMappedName) Logger?.Trace($"(Mappings) {className} => {mappedClass?.MappedName}");
-        if (innerClassMappedName) Logger?.Trace($"(Mappings Inner) {className} => {mappedInnerClass?.MappedName}");
-
+        // if (classMappedName) Logger?.Trace($"(Mappings) {className} => {mappedClass?.MappedName}");
+        // if (innerClassMappedName) Logger?.Trace($"(Mappings Inner) {className} => {mappedInnerClass?.MappedName}");
+        
+        var normalizedClassName = className.Replace('.', '/');
         if (mappedClass?.MappedName == "net/minecraft/entity/player/PlayerEntity")
         {
             if (classData == null || classData.Length == 0) return [];
@@ -57,25 +58,22 @@ public class ModuleMain : ModuleBase
                 {
                     Logger?.Warn($"[@] -  - Attribute: {attribute.Name} ({attribute.Info.Length} Bytes)");
                 }
-                foreach (var mappedClassField in mappedClass.Fields)
+                
+                var mappedFieldName = Manager.MappingSearcher.SearchField(field.Name);
+                if (mappedFieldName == "experienceLevel")
                 {
-                    if (mappedClassField.ObfuscatedName == field.Name)
+                    Logger?.Error("Found obfuscated field (Mapped Name)");
+                    fieldN = field.Name;
+                    fieldD = field.Descriptor;
+                
+                    foreach (var attribute in field.Attributes)
                     {
-                        if (mappedClassField.MappedName == "experienceLevel")
+                        if (attribute.Name == "ConstantValue")
                         {
-                            Logger?.Error("Found obfuscated field (Mapped Name)");
-                            fieldN = field.Name;
-                            fieldD = field.Descriptor;
-                            foreach (var attribute in field.Attributes)
-                            {
-                                if (attribute.Name == "ConstantValue")
-                                {
-                                    var newIndex = helper.NewInteger(114514);
-                                    ConstantValueAttributeStruct cValue = new ConstantValueAttributeStruct();
-                                    cValue.ConstantValueIndex = newIndex;
-                                    attribute.Info = cValue.ToBytesWithoutIndexAndLength();
-                                }
-                            }
+                            var newIndex = helper.NewInteger(114514);
+                            ConstantValueAttributeStruct cValue = new ConstantValueAttributeStruct();
+                            cValue.ConstantValueIndex = newIndex;
+                            attribute.Info = cValue.ToBytesWithoutIndexAndLength();
                         }
                     }
                 }
@@ -105,7 +103,7 @@ public class ModuleMain : ModuleBase
                 }
 
 
-                if (method.Name == "method_5749")
+                if (method.Name == "method_5749") // (Should use mapped name)
                 {
                     Logger?.Error("Found obfuscated method (By Name)");
                     if (fieldN == null || fieldD == null)

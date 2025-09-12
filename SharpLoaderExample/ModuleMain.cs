@@ -80,18 +80,6 @@ public class ModuleMain : ModuleBase
                     }
                 }
             }
-            
-            var superClass = Manager.Mapping.Classes.Select((e) =>
-            {
-                if (e.Value.MappedName == "net/minecraft/entity/Entity")
-                {
-                    return e.Value;
-                }
-
-                return null;
-            }).ToList();
-            ClassMapping super = superClass[0]!;
-            
             foreach (var method in clazz.Methods)
             {
                 
@@ -116,50 +104,47 @@ public class ModuleMain : ModuleBase
                     }
                 }
 
-                var allMethods = mappedClass.Methods.ToList();
-                allMethods.AddRange(super.Methods);
-                foreach (var mappedMethod in allMethods)
+
+                if (method.Name == "method_5749")
                 {
+                    Logger?.Error("Found obfuscated method (By Name)");
                     if (fieldN == null || fieldD == null)
                     {
-                        break;
+                        Logger?.Fatal("Fields not found");
                     }
-                    if (mappedMethod.ObfuscatedName == method.Name)
+                    else
                     {
-                        if (mappedMethod.MappedName == "readCustomData")
+                        foreach (var attribute in method.Attributes)
                         {
-                            Logger?.Error("Found obfuscated method (Mapped Name)");
-                            foreach (var attribute in method.Attributes)
+                            if (attribute.Name == "Code")
                             {
-                                if (attribute.Name == "Code")
+                                var newIndex = helper.NewInteger(114514);
+                                var fieldRefIndex = helper.NewFieldref(clazz.ThisClass, fieldN, fieldD);
+                                AttributeInfoStruct ciValue = new AttributeInfoStruct();
+                                ciValue.AttributeLength = 0; // Will be ignored
+                                ciValue.AttributeNameIndex = 0; // Will be ignored
+                                ciValue.Info = attribute.Info;
+                                CodeAttributeStruct cValue = CodeAttributeStruct.FromStructInfo(ciValue);
+                                var codes = cValue.GetCode();
+
+                                codes.RemoveAt(codes.Count - 1);
+                                codes.Add(new Code(OperationCode.ALOAD_0));
+                                codes.Add(new Code(OperationCode.LDC_W, new[] { Operand.WideIndex(newIndex) }));
+                                codes.Add(new Code(OperationCode.PUTFIELD, new[] { Operand.FieldRef(fieldRefIndex) }));
+                                codes.Add(new Code(OperationCode.RETURN));
+                                cValue.SetCode(codes);
+
+                                attribute.Info = cValue.ToBytesWithoutIndexAndLength();
+                                Logger?.Error("Successful to modify the method.");
+                                foreach (var code in codes)
                                 {
-                                    var newIndex = helper.NewInteger(114514);
-                                    var fieldRefIndex = helper.NewFieldref(clazz.ThisClass, fieldN, fieldD);
-                                    AttributeInfoStruct ciValue = new AttributeInfoStruct();
-                                    ciValue.AttributeLength = 0; // Will be ignored
-                                    ciValue.AttributeNameIndex = 0; // Will be ignored
-                                    ciValue.Info = attribute.Info;
-                                    CodeAttributeStruct cValue = CodeAttributeStruct.FromStructInfo(ciValue);
-                                    var codes = cValue.GetCode();
-                                    
-                                    codes.RemoveAt(codes.Count - 1);
-                                    codes.Add(new Code(OperationCode.ALOAD_0));
-                                    codes.Add(new Code(OperationCode.LDC_W, new[] { Operand.WideIndex(newIndex) }));
-                                    codes.Add(new Code(OperationCode.PUTFIELD, new[] { Operand.FieldRef(fieldRefIndex) }));
-                                    codes.Add(new Code(OperationCode.RETURN));
-                                    cValue.SetCode(codes);
-                                    
-                                    attribute.Info = cValue.ToBytesWithoutIndexAndLength();
-                                    Logger?.Error("Successful to modify the method.");
-                                    foreach (var code in codes)
-                                    {
-                                        Logger?.Error($"[@] -  -  - {code}");
-                                    }
+                                    Logger?.Error($"[@] -  -  - {code}");
                                 }
                             }
                         }
                     }
                 }
+
             }
 
             clazz.ConstantPool = helper.ToList();

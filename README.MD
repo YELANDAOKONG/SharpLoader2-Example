@@ -2,18 +2,29 @@
 
 SharpLoader 示例模块（用于与“模组”区分）。
 
-> 注意：当期项目硬编码了 SharpLoader.dll 和 SharpASM.dll 路径，请注意修改。
+```json
+{
+  "Id": "SharpLoaderExample",
+  "Namespace": "SharpLoaderExample",
 
-```csproj
-<ItemGroup>
-   <Reference Include="SharpLoader">
-     <HintPath>..\..\SharpLoader\SharpLoader\bin\Release\net8.0\SharpLoader.dll</HintPath>
-   </Reference>
-        
-   <Reference Include="SharpASM">
-     <HintPath>..\..\SharpASM\SharpASM\bin\Release\net8.0\SharpASM.dll</HintPath>
-   </Reference>
-</ItemGroup>
+  "Version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 0
+  },
+
+  "EntryPoint": "SharpLoaderExample.dll",
+  "MainClass": "SharpLoaderExample.ModuleMain",
+  "NativeDependencies": [
+    "SharpASM.dll"
+  ],
+
+  "Title": "SharpLoader Example",
+  "Description": "Sharp Loader Example Module",
+  "Authors": [
+    "You"
+  ]
+}
 ```
 
 ## 效果

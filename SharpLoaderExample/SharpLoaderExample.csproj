@@ -7,13 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="SharpLoader">
-        <HintPath>..\..\SharpLoader\SharpLoader\bin\Release\net8.0\SharpLoader.dll</HintPath>
-      </Reference>
-        
-      <Reference Include="SharpASM">
-        <HintPath>..\..\SharpASM\SharpASM\bin\Release\net8.0\SharpASM.dll</HintPath>
-      </Reference>
+      <PackageReference Include="SharpMC.SharpASM" Version="1.0.3" />
+      <PackageReference Include="SharpMC.SharpLoader" Version="1.0.3" />
     </ItemGroup>
 
 </Project>

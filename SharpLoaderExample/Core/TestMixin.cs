@@ -8,7 +8,7 @@ namespace SharpLoaderExample.Core;
 
 public class TestMixin
 {
-    [MethodMixin("net/minecraft/class_1657", 
+    [MethodCodeMixin("net/minecraft/class_1657", 
         "method_5749", 
         "(Lnet/minecraft/class_11368;)V", 
         NameType.Default)]

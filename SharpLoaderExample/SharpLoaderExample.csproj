@@ -10,8 +10,8 @@
     <ItemGroup>
       <PackageReference Include="SharpMC.SharpASM" Version="1.0.3.1" />
       <PackageReference Include="SharpMC.SharpLoader" Version="1.0.3.1" />
-      <PackageReference Include="SharpMC.SharpMixin" Version="1.0.3" />
-      <PackageReference Include="SharpMC.SharpPackage" Version="1.0.3.7" />
+      <PackageReference Include="SharpMC.SharpMixin" Version="1.0.3.1" />
+      <PackageReference Include="SharpMC.SharpPackage" Version="1.0.3.8" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -25,7 +25,7 @@
         <SharpPackageInclude Include="$(MSBuildProjectDirectory)\..\README.MD" />
         <!-- <SharpPackageInclude Include="$(OutputPath)SharpASM.dll" /> -->
         <!-- <SharpPackageInclude Include="$(OutputPath)SharpMixin.dll" /> -->
-         <SharpPackageInclude Include="$(MSBuildProjectDirectory)\Assets\*" /> 
+         <SharpPackageInclude Include="$(MSBuildProjectDirectory)\Assets\**\*" /> 
     </ItemGroup>
 
 </Project>

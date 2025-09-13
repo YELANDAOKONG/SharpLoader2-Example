@@ -1,3 +1,4 @@
+using SharpASM.Models;
 using SharpASM.Models.Code;
 using SharpMixin.Attributes;
 using SharpMixin.Models;
@@ -10,7 +11,7 @@ public class TestMixin
         "method_5749", 
         "()V", 
         NameType.ObfuscatedName)]
-    public static List<Code> TestMixinMethod(List<Code> codes)
+    public static List<Code> TestMixinMethod(Class clazz, List<Code> codes)
     {
         return codes;
     }

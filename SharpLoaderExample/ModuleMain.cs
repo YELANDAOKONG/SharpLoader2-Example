@@ -30,6 +30,7 @@ public class ModuleMain : ModuleBase
 
     public override byte[]? ModifyClass(string className, byte[]? classData)
     {
+        return null;
         if (Manager == null) return null;
         var classMappedName = Manager.Mapping.Classes.TryGetValue(className, out var mappedClass);
         var innerClassMappedName = Manager.Mapping.InnerClasses.TryGetValue(className, out var mappedInnerClass);

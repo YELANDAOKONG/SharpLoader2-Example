@@ -11,8 +11,12 @@
   "EntryPoint": "SharpLoaderExample.dll",
   "MainClass": "SharpLoaderExample.ModuleMain",
   "NativeDependencies": [
-    "SharpASM.dll",
-    "SharpMixin.dll"
+    "SharpAPI.dll"
+  ],
+  "Dependencies": [
+    {
+      "ModuleId": "SharpAPI"
+    }
   ],
 
   "Title": "SharpLoader Example",

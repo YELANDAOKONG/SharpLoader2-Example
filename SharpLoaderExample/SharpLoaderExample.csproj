@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="SharpMC.SharpAPI" Version="1.0.3" />
       <PackageReference Include="SharpMC.SharpASM" Version="1.0.3.1" />
       <PackageReference Include="SharpMC.SharpLoader" Version="1.0.3.1" />
       <PackageReference Include="SharpMC.SharpMixin" Version="1.0.3.1" />

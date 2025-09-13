@@ -9,8 +9,8 @@ public class TestMixin
 {
     [MethodMixin("net/minecraft/class_1657", 
         "method_5749", 
-        "()V", 
-        NameType.ObfuscatedName)]
+        "(Lnet/minecraft/class_11368;)V", 
+        NameType.Default)]
     public static List<Code> TestMixinMethod(Class clazz, List<Code> codes)
     {
         var helper = clazz.GetConstantPoolHelper();

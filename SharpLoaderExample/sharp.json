@@ -10,9 +10,7 @@
 
   "EntryPoint": "SharpLoaderExample.dll",
   "MainClass": "SharpLoaderExample.ModuleMain",
-  "NativeDependencies": [
-    "SharpAPI.dll"
-  ],
+  "NativeDependencies": [],
   "Dependencies": [
     {
       "ModuleId": "SharpAPI"

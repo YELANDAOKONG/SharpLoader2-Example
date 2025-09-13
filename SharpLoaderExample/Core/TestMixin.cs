@@ -1,11 +1,14 @@
 using SharpASM.Models;
 using SharpASM.Models.Code;
+using SharpASM.Models.Struct;
 using SharpASM.Models.Struct.Attribute;
 using SharpMixin.Attributes;
 using SharpMixin.Models;
+using Attribute = SharpASM.Models.Attribute;
 
 namespace SharpLoaderExample.Core;
 
+[Mixin]
 public class TestMixin
 {
     [MethodCodeMixin("net/minecraft/class_1657", 
@@ -29,5 +32,30 @@ public class TestMixin
         clazz.ConstantPool = helper.ToList();     
         attribute.SetCode(codes);
         return attribute;
+    }
+
+    // [MethodCodeMixin("net/minecraft/class_1657",
+    //     "method_7324",
+    //     "(Lnet/minecraft/class_1297;)V",
+    //     NameType.Default)]
+    // public static CodeAttributeStruct TestPlusMixinMethod(Class clazz, CodeAttributeStruct attribute)
+    // {
+    //     List<Code> codes = attribute.GetCode();
+    //     var helper = clazz.GetConstantPoolHelper();
+    //
+    //     
+    //     
+    //     clazz.ConstantPool = helper.ToList();
+    //     attribute.SetCode(codes);
+    //     return attribute;
+    // }
+
+
+
+
+    [ClassMixin("net/minecraft/class_1657", NameType.Default)]
+    public static Class TestMixinClass(Class clazz)
+    {
+        return clazz;
     }
 }

@@ -4,6 +4,7 @@ using SharpASM.Models.Code;
 using SharpASM.Models.Struct;
 using SharpASM.Models.Struct.Attribute;
 using SharpASM.Parsers;
+using SharpASM.Utilities.Strings;
 using SharpLoader;
 using SharpLoader.Core.Minecraft.Mapping.Models;
 using SharpLoader.Core.Modding;
@@ -51,18 +52,19 @@ public class ModuleMain : ModuleBase
             
             Logger?.Warn($"[@] This Class: {clazz.ThisClass}");
             Logger?.Warn($"[@] Super Class: {clazz.SuperClass}");
+            Logger?.Warn($"( Class ) {ClassStringHelper.FormatToString(clazz)}");
             foreach (var field in clazz.Fields)
             {
-                Logger?.Warn($"[@] - Field: {field.Name} {field.Descriptor} [ {FieldAccessFlagsHelper.GetFlagsString((ushort)field.AccessFlags)} ]");
-                foreach (var attribute in field.Attributes)
-                {
-                    Logger?.Warn($"[@] -  - Attribute: {attribute.Name} ({attribute.Info.Length} Bytes)");
-                }
+                // Logger?.Warn($"[@] - Field: {field.Name} {field.Descriptor} [ {FieldAccessFlagsHelper.GetFlagsString((ushort)field.AccessFlags)} ]");
+                // foreach (var attribute in field.Attributes)
+                // {
+                //     Logger?.Warn($"[@] -  - Attribute: {attribute.Name} ({attribute.Info.Length} Bytes)");
+                // }
                 
                 var mappedFieldName = Manager.MappingSearcher.SearchField(field.Name);
                 if (mappedFieldName == "experienceLevel")
                 {
-                    Logger?.Error("Found obfuscated field (Mapped Name)");
+                    Logger?.Error($"Found obfuscated field (Mapped Name): {field.Name} {field.Descriptor} {FieldAccessFlagsHelper.GetFlagsString((ushort)field.AccessFlags)}");
                     fieldN = field.Name;
                     fieldD = field.Descriptor;
                 
@@ -81,26 +83,26 @@ public class ModuleMain : ModuleBase
             foreach (var method in clazz.Methods)
             {
                 
-                Logger?.Warn($"[@] - Method: {method.Name} {method.Descriptor} [ {MethodAccessFlagsHelper.GetFlagsString((ushort)method.AccessFlags)} ]");
-                foreach (var attribute in method.Attributes)
-                {
-                    Logger?.Warn($"[@] -  - Attribute: {attribute.Name} ({attribute.Info.Length} Bytes)");
-                    if (attribute.Name == "Code")
-                    {
-                        AttributeInfoStruct attributeInfoStruct = new AttributeInfoStruct()
-                        {
-                            AttributeLength = 0,
-                            AttributeNameIndex = 0,
-                            Info = attribute.Info,
-                        };
-                        CodeAttributeStruct attributeStruct = CodeAttributeStruct.FromStructInfo(attributeInfoStruct);
-                        var codes = ByteCodeParser.Parse(attributeStruct.Code);
-                        foreach (var code in codes)
-                        {
-                            Logger?.Warn($"[@] -  -  - {code}");
-                        }
-                    }
-                }
+                // Logger?.Warn($"[@] - Method: {method.Name} {method.Descriptor} [ {MethodAccessFlagsHelper.GetFlagsString((ushort)method.AccessFlags)} ]");
+                // foreach (var attribute in method.Attributes)
+                // {
+                //     Logger?.Warn($"[@] -  - Attribute: {attribute.Name} ({attribute.Info.Length} Bytes)");
+                //     if (attribute.Name == "Code")
+                //     {
+                //         AttributeInfoStruct attributeInfoStruct = new AttributeInfoStruct()
+                //         {
+                //             AttributeLength = 0,
+                //             AttributeNameIndex = 0,
+                //             Info = attribute.Info,
+                //         };
+                //         CodeAttributeStruct attributeStruct = CodeAttributeStruct.FromStructInfo(attributeInfoStruct);
+                //         var codes = ByteCodeParser.Parse(attributeStruct.Code);
+                //         foreach (var code in codes)
+                //         {
+                //             Logger?.Warn($"[@] -  -  - {code}");
+                //         }
+                //     }
+                // }
 
 
                 if (method.Name == "method_5749") // (Should use mapped name)

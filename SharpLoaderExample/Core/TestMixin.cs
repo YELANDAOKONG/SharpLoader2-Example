@@ -57,9 +57,8 @@ public class TestMixin
         "method_7324", 
         "(Lnet/minecraft/class_1297;)V", 
         NameType.Default)]
-    public static CodeAttributeStruct TestPlusMixinMethod(Class clazz, CodeAttributeStruct attribute)
+    public static CodeAttributeStruct TestPlusMixinMethod(Class clazz, Method method, CodeAttributeStruct attribute)
     {
-        var method = clazz.Methods.First(m => m.Name == "method_7324");
         List<Code> codes = attribute.GetCode();
         var helper = clazz.GetConstantPoolHelper();
     

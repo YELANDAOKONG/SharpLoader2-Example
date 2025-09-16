@@ -103,42 +103,53 @@ public class TestMixin
         var map = executor.RebuildStackMapTable();
         var table = map.ToBytesWithoutIndexAndLength();
         helper = clazz.GetConstantPoolHelper();
-        var appended = false;
-        foreach (var attributeInfoStruct in attribute.Attributes)
+        // var appended = false;
+        // var newAttributes = new List<AttributeInfoStruct>(attribute.Attributes);
+        // foreach (var attributeInfoStruct in attribute.Attributes)
+        // {
+        //     appended = true;
+        //     var data = helper.ByIndex(attributeInfoStruct.AttributeNameIndex);
+        //     if (data == null)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     if (data.Tag != ConstantPoolTag.Utf8)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     int offset = 0;
+        //     ConstantUtf8InfoStruct utf8 = ConstantUtf8InfoStruct.FromBytesWithTag((byte)ConstantPoolTag.Utf8, attributeInfoStruct.Info, ref offset);
+        //     if (utf8.ToString() == "StackMapTable")
+        //     {
+        //         appended = true;
+        //         attributeInfoStruct.Info = table;
+        //         attributeInfoStruct.AttributeLength = (uint)table.Length;
+        //     }
+        // }
+
+        // if (!appended)
+        // {
+        //     var list = new List<AttributeInfoStruct>(attribute.Attributes);
+        //     list.Add(new AttributeInfoStruct()
+        //     {
+        //         AttributeNameIndex = helper.NewUtf8("StackMapTable"),
+        //         AttributeLength = (uint)table.Length,
+        //         Info = table,
+        //     });
+        //     attribute.Attributes = list.ToArray();
+        // }
+
+        var list = new List<AttributeInfoStruct>(); // (attribute.Attributes);
+        list.Add(new AttributeInfoStruct()
         {
-            appended = true;
-            var data = helper.ByIndex(attributeInfoStruct.AttributeNameIndex);
-            if (data == null)
-            {
-                continue;
-            }
-
-            if (data.Tag != ConstantPoolTag.Utf8)
-            {
-                continue;
-            }
-
-            int offset = 0;
-            ConstantUtf8InfoStruct utf8 = ConstantUtf8InfoStruct.FromBytesWithTag((byte)ConstantPoolTag.Utf8, attributeInfoStruct.Info, ref offset);
-            if (utf8.ToString() == "StackMapTable")
-            {
-                appended = true;
-                attributeInfoStruct.Info = table;
-                attributeInfoStruct.AttributeLength = (uint)table.Length;
-            }
-        }
-
-        if (!appended)
-        {
-            var list = new List<AttributeInfoStruct>(attribute.Attributes);
-            list.Add(new AttributeInfoStruct()
-            {
-                AttributeNameIndex = helper.NewUtf8("StackMapTable"),
-                AttributeLength = (uint)table.Length,
-                Info = table,
-            });
-            attribute.Attributes = list.ToArray();
-        }
+            AttributeNameIndex = helper.NewUtf8("StackMapTable"),
+            AttributeLength = (uint)table.Length,
+            Info = table,
+        });
+        attribute.Attributes = list.ToArray();
+        
         clazz.ConstantPool = helper.ToList();
         return attribute;
     }

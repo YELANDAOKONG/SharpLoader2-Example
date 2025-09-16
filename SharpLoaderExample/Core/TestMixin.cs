@@ -4,6 +4,7 @@ using SharpASM.Models.Code;
 using SharpASM.Models.Struct;
 using SharpASM.Models.Struct.Attribute;
 using SharpASM.Models.Type;
+using SharpASM.Parsers;
 using SharpASM.Utilities;
 using SharpMixin.Attributes;
 using SharpMixin.Models;
@@ -105,6 +106,7 @@ public class TestMixin
         var appended = false;
         foreach (var attributeInfoStruct in attribute.Attributes)
         {
+            appended = true;
             var data = helper.ByIndex(attributeInfoStruct.AttributeNameIndex);
             if (data == null)
             {
